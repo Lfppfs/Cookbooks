@@ -17,7 +17,7 @@ sed -n '9p' ~/target_folder/*/target_file.sh
 # substitutes the string "2" for "3" at ALL its occurrences on a line
 # sed -i "s/2/3/g" ~/target_folder/target_file.sh
 
-# escaping special characters functions as in any regexp
+# escaping special characters works as in any regexp
 # sed -i "s/\*\ 2/\*\ 3/" ~/target_folder/target_file.sh
 
 # other characters can be used to determine the beginning and end of a pattern
@@ -35,3 +35,9 @@ while IFS= read -r line; do sed -n "s/$line//p" lines.txt; done < target_file.tx
 # get elements 1 to 30 of lines from file test.txt
 while IFS= read -r line; do echo "${line:1:30}"; done < target_file.txt
 
+# substituting newline characters is tricky since sed reads a file line by line,
+# and thus "disconsiders" EOL characters.
+# this, for example, does not work (say you want to substitute all EOL for 'aaa'):
+# sed -i 's/\n/aaa/' input.in
+# but this works, since you force sed to match anything at the end of a line using a regexp:
+# sed -i 's/\n*$/aaa/' input.in
