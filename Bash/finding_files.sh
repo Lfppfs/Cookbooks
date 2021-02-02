@@ -31,3 +31,11 @@ find ~/target_folder -regextype posix-egrep -type d -name "alpha[0-9]*" -exec rm
 # maxdepth argument specifies the directory level into which find will descend; -maxdepth 1 thus applies the command only
 # to the local directory and not to any of its subdirectories
 find target_folder/ -maxdepth 1 -name "*.pdf"
+
+# this matches a file named "alpha__.sh" containing exactly two digits (replacing the underscores);
+# the file is matched at paths below the current one (./.+), and these paths
+# have any possible name ("." specifies any digit and + specifies "one or more of");
+# the files found are then streamed using sed, which searches for line number 38 and
+# deletes it (using d and the -i option deletes a pattern/line)
+# specifying -regextype egrep may not be necessary in this case, I'm not sure
+find -regextype egrep -regex "./.+/alpha[0-9]{2}.sh" -exec sed -i "38d" {} ";"
