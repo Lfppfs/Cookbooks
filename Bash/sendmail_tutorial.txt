@@ -1,0 +1,32 @@
+1) Install ssmtp
+
+sudo apt install ssmtp
+
+2) Use the editor of your choice to edit the /etc/ssmtp/ssmtp.conf file and add the following lines
+
+mailhub=smtp.gmail.com:587
+UseSTARTTLS=YES
+AuthUser=your-email@gmail.com
+AuthPass=XXXXXXXXXXXXXXX
+TLS_CA_File=/etc/pki/tls/certs/ca-bundle.crt
+
+Insert your gmail address in the AuthUser entry and your password in the AuthPass entry
+
+3a) You can then send an email to a receiver with the following command
+
+echo -e "Subject: Type the subject here\n\ntype the contents of the message here" | sendmail receiver@domain.com
+
+(running "sendmail receiver@domain.com" and typing EOF into the terminal will also work, sending a blank message to the receiver)
+
+3b) You can also send a file with the subject and contents of the message. Let's say you create a "test.txt" file as such:
+
+''''''
+Subject: This is Subject Line
+
+Email content line 1
+Email content line 2
+''''''
+
+Then simply run
+
+ssmtp receiver@domain.com < /path/msg.txt
